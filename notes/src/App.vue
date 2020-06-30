@@ -4,13 +4,28 @@
       <section class="section">
         <div class="container">
           <h1>{{ title }}</h1>
+
           <!-- messages -->
           <Message v-if="message" :message="message" />
 
           <!-- new note -->
           <NewNote :note="note" @addNote="addNote" />
+          <div class="icons">
+            <img
+              @click="grid = true"
+              :class="{ active: grid }"
+              src="./assets/grid.svg"
+              alt="grid"
+            />
+            <img
+              @click="grid = false"
+              :class="{ active: !grid }"
+              src="./assets/column.svg"
+              alt="column"
+            />
+          </div>
           <!-- note  list -->
-          <Notes :notes="notes" @remove="removeNote" />
+          <Notes :grid="grid" :notes="notes" @remove="removeNote" />
         </div>
       </section>
     </div>
@@ -31,6 +46,7 @@ export default {
     return {
       title: "Notes App",
       message: null,
+      grid: true,
       note: {
         title: "",
         description: "",
@@ -73,11 +89,25 @@ export default {
       this.note.description = "";
       this.message = null;
     },
-    removeNote(index){
-      this.notes.splice(index, 1)
-    }
+    removeNote(index) {
+      this.notes.splice(index, 1);
+    },
   },
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.icons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  img {
+    cursor: pointer;
+    &.active {
+      background: #c05858;
+      border-radius: 3px;
+      padding: 3px;
+    }
+  }
+}
+</style>
